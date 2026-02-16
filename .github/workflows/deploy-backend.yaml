@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: '21'
 
+      - name: change directory
+        run: cd backend
+
       - name: Install dependencies
         run: npm install
         working-directory: backend
