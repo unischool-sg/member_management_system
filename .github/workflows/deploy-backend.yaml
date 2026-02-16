@@ -16,17 +16,16 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '21'
-
-      - name: change directory
-        run: cd backend
-
+          
       - name: Install dependencies
         run: npm install
         working-directory: backend
+
+      - name: Install wrangler CLI
+        run: npm install -g wrangler
 
       - name: Build project
         run: wrangler deploy --minify
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
         working-directory: backend
