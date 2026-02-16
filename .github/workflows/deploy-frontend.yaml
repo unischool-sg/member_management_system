@@ -17,15 +17,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '21'
-
-      - name: change directory
-        run: cd frontend
-
       - name: Install dependencies
         run: npm install
+        working-directory: frontend
 
       - name: Build project
         run: npm run build
+        working-directory: frontend
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -34,3 +32,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: member-manager
           directory: ./dist
+        working-directory: frontend
