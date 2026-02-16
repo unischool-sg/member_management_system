@@ -1,0 +1,38 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "member_management_system",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-02-16",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "vars": {
+    "MY_VAR": "my-variable"
+  },
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "MY_KV_NAMESPACE",
+  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  //   }
+  // ],
+  // "r2_buckets": [
+  //   {
+  //     "binding": "MY_BUCKET",
+  //     "bucket_name": "my-bucket"
+  //   }
+  // ],
+  "d1_databases": [
+    {
+      "binding": "D1_DATABASE",
+      "database_name": "unischool_member_management_system",
+      "database_id": "fdecad2b-0c81-4673-84cc-c62f20037389"
+    }
+  ],
+  // "ai": {
+  //   "binding": "AI"
+  // },
+  // "observability": {
+  //   "enabled": true,
+  //   "head_sampling_rate": 1
+  // }
+}
