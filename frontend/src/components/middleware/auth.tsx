@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { Loading } from "../animation/loading";
 
 type AuthLayoutProps = React.FC<PropsWithChildren<{
-    authenticated: boolean; // 認証ユーザーのみアクセス可能ならtrue、非認証ユーザーのみアクセス可能ならfalse
+    authenticated: boolean; // 認証が必要か否か
 }>>;
 
 type BaseAPIResponse = {
@@ -60,8 +60,9 @@ export const AuthLayout: AuthLayoutProps = ({ children, authenticated }) => {
 
     if (isLoading) return <Loading />;
     if (!isLoading) {
-        if ((authenticated && !isAuthenticated) || (!authenticated && isAuthenticated)) // 認証ユーザーのみアクセス可能かつ、認証されていない場合
-            return <Navigate to={`/auth/login`} replace />; // 認証ユーザーのみアクセス可能ならログインページへ、非認証ユーザーのみアクセス可能ならホームページへリダイレクト
+        const willRedirect: boolean = (authenticated && !isAuthenticated) ||
+            (!authenticated && isAuthenticated);
+        if (willRedirect) return <Navigate to={`/auth/login`} replace />; // 認証ユーザーのみアクセス可能ならログインページへ、非認証ユーザーのみアクセス可能ならホームページへリダイレクト
         else return <>{children}</>;
     }
 }
