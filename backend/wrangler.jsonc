@@ -25,7 +25,8 @@
     {
       "binding": "D1_DATABASE",
       "database_name": "unischool_member_management_system",
-      "database_id": "fdecad2b-0c81-4673-84cc-c62f20037389"
+      "database_id": "fdecad2b-0c81-4673-84cc-c62f20037389",
+      "migrations_dir": "./drizzle"
     }
   ],
   // "ai": {
