@@ -33,7 +33,7 @@
  * app.post('/api/users', userController.createUser);
  */
 
-import { Hono } from 'hono';
+import { Hono, Context } from 'hono';
 import { D1Database } from '@cloudflare/workers-types';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { Object } from './lib/utils/jwt';
@@ -41,7 +41,7 @@ import { drizzle } from 'drizzle-orm/d1';
 import { verifyToken } from './lib/utils/jwt';
 import { middleware } from './features/middleware';
 
-export type Env = {
+type Env = {
   Variables: {
     name: string;
     db: DrizzleD1Database; // Drizzle ORMを使用してD1データベースにアクセスするための型
@@ -56,6 +56,7 @@ export type Env = {
     JWR_SECRET: string; // JWTのシークレットキー
   }
 }
+export type ContextWithEnv = Context<Env>;
 
 const app = new Hono<Env>();
 app.use(async (c, next) => {
