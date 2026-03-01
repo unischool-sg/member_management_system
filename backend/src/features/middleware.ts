@@ -1,7 +1,8 @@
 import { Context, Next } from "hono";
 import type { Env } from "../index";
-import { verifyToken } from "../lib/utils/jwt";
 import { getCookie } from "hono/cookie";
+import { verifyToken } from "../lib/utils/jwt";
+
 
 const getTokenFromHeader = (c: Context<Env>): string | null => {
     const authHeader = c.req.header('Authorization');
