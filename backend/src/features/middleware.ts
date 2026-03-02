@@ -1,10 +1,10 @@
 import { Context, Next } from "hono";
-import type { Env } from "../index";
+import type { ContextWithEnv } from "../index";
 import { getCookie } from "hono/cookie";
 import { verifyToken } from "../lib/utils/jwt";
 
 
-const getTokenFromHeader = (c: Context<Env>): string | null => {
+const getTokenFromHeader = (c: ContextWithEnv): string | null => {
     const authHeader = c.req.header('Authorization');
     if (authHeader && authHeader.startsWith('Bearer ')) {
         return authHeader.replace('Bearer ', '');
@@ -12,7 +12,7 @@ const getTokenFromHeader = (c: Context<Env>): string | null => {
     return getCookie(c, 'authToken') ?? null; // クッキーからトークンを取得
 }
 
-const middleware = async (c: Context<Env>, next: Next) => {
+const middleware = async (c: ContextWithEnv, next: Next) => {
     const token = getTokenFromHeader(c);
     const isAuthed = token ? await verifyToken(token, c.env.JWR_SECRET ?? "DEFAULT_JWT_TOKEN") : null;
     c.set('isAuthed', isAuthed);
