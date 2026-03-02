@@ -1,4 +1,4 @@
-import { Context, Next } from "hono";
+import { Next } from "hono";
 import type { ContextWithEnv } from "../index";
 import { getCookie } from "hono/cookie";
 import { verifyToken } from "../lib/utils/jwt";
