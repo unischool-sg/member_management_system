@@ -72,7 +72,6 @@ export const teamMembers = sqliteTable('team_members', { // チームメンバ�
     updatedAt: integer('updated_at', { mode: "timestamp" }).notNull(),
 });
 
-
 export const announcements = sqliteTable('announcements', { // お知らせテーブルの定義
     id:      text('id').primaryKey(),
     title:   text('title').notNull().default('an announcement'),   // お知らせのタイトル

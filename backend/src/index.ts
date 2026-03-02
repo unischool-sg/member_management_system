@@ -38,7 +38,6 @@ import { D1Database } from '@cloudflare/workers-types';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { Object } from './lib/utils/jwt';
 import { drizzle } from 'drizzle-orm/d1';
-import { verifyToken } from './lib/utils/jwt';
 import { middleware } from './features/middleware';
 
 type Env = {
@@ -67,5 +66,21 @@ app.use(async (c, next) => {
   await next();
 });
 app.use('/api/*', middleware); // 認証ミドルウェアをAPIルートに適用
+
+// ルーティング
+/**
+ * Auth Controllerセクション
+ */
+import { AuthController } from './features/auth/auth.controller';
+import { AuthService } from './features/auth/auth.service';
+const authService = new AuthService();
+const authController = new AuthController(authService);
+const authClient = new Hono<Env>();
+
+authClient.post('/login', (c) => authController.login(c));
+authClient.post('/register', (c) => authController.register(c));
+app.route('/api/auth', authClient);
+
+
 
 export default app;
