@@ -1,7 +1,8 @@
-import { Context, Next } from "hono";
+import { Next } from "hono";
 import type { ContextWithEnv } from "../index";
 import { getCookie } from "hono/cookie";
 import { verifyToken } from "../lib/utils/jwt";
+import { SessionPayload } from "./auth/auth.model";
 
 
 const getTokenFromHeader = (c: ContextWithEnv): string | null => {
@@ -15,7 +16,7 @@ const getTokenFromHeader = (c: ContextWithEnv): string | null => {
 const middleware = async (c: ContextWithEnv, next: Next) => {
     const token = getTokenFromHeader(c);
     const isAuthed = token ? await verifyToken(token, c.env.JWR_SECRET ?? "DEFAULT_JWT_TOKEN") : null;
-    c.set('isAuthed', isAuthed);
+    c.set('isAuthed', isAuthed as SessionPayload | null);
 
     await next();
 }

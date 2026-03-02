@@ -33,18 +33,19 @@
  * app.post('/api/users', userController.createUser);
  */
 
-import { Hono, Context } from 'hono';
-import { D1Database } from '@cloudflare/workers-types';
-import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { Hono, type Context } from 'hono';
+import type { D1Database } from '@cloudflare/workers-types';
+import type { SessionPayload } from './features/auth/auth.model';
+import { type DrizzleD1Database, drizzle } from 'drizzle-orm/d1';
+import { UserInsertSchema, UserSelectSchema } from './types/zod';
 import { Object } from './lib/utils/jwt';
-import { drizzle } from 'drizzle-orm/d1';
 import { middleware } from './features/middleware';
 
 type Env = {
   Variables: {
     name: string;
     db: DrizzleD1Database; // Drizzle ORMを使用してD1データベースにアクセスするための型
-    isAuthed: Object | null;     // 認証状態を示すフラグ
+    isAuthed: SessionPayload | null;     // 認証状態を示すフラグ
   },
   Bindings: {
     // Cloudflare バインディング
@@ -77,10 +78,15 @@ const authService = new AuthService();
 const authController = new AuthController(authService);
 const authClient = new Hono<Env>();
 
-authClient.post('/login', (c) => authController.login(c));
-authClient.post('/register', (c) => authController.register(c));
-app.route('/api/auth', authClient);
+authClient.post('/login', (c) => authController.login<typeof c>(c));
+authClient.post('/register', (c) => authController.register<typeof c>(c));
+authClient.get('/me', (c) => authController.me<typeof c>(c));
 
+app.route('/api/auth/*', authClient);
+
+/**
+ * User Controllerセクション
+ */
 
 
 export default app;
