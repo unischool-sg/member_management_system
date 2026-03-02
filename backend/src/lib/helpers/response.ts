@@ -49,7 +49,7 @@ export const fromError = (err: unknown, message = 'Internal Server Error') => {
   return internalServerError(message, details);
 };
 
-export default {
+export {
   ok,
   created,
   noContent,
